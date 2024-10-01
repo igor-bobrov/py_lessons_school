@@ -1,0 +1,7 @@
+a = dict()
+a.update([('asd', 'dsa'), ('asdf', 'fdsa')])
+print(a.keys())
+s = list(a.keys())
+print(s)
+print(s.count('asd'))
+print(list(a.values()))
