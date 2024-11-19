@@ -1,8 +1,8 @@
 from graphics import *
 import time
 import numpy as np
-M = 10
-N = 8
+M = 3
+N = 5
 Width = 800
 Height = 800
 R = 200
@@ -23,7 +23,7 @@ Print2 = outputpoint(X2, newR)
 def gr():
     win = GraphWin('фигуры', Width, Height)
     c = Circle(Point(Width/2,Height/2), R)
-    c.setFill('yellow')
+    c.setFill('gray')
     c.draw(win)
     for i in range(len(Print1)-1):
         v = Line(Point(Print1[i][0], Print1[i][1]), Point(Print1[i+1][0], Print1[i+1][1]))
