@@ -26,7 +26,8 @@ win_width = 1000
 win_height = 1000
 oval_radius = 200
 ball_radius = 10
-n_balls = 12
+n_balls = 6
+M = 144
 
 win = GraphWin("Balls Moving in an Oval", win_width, win_height)
 win.setBackground("black")
@@ -43,25 +44,40 @@ for i in range(n_balls):
     balls.append(ball)
 
 target_point = Point(500, 100)
-
 while True:
     points = []
     lines = []
+    pl = [target_point]
+    pli = []
+    i = 0
+    m = n_balls/2
     for ball in balls:
         x, y = ball.move()
+        pl.append(Point(x, y))
+        plii = Polygon(pl)
+        plii.setFill("Purple")
+        plii.draw(win)
+        pli.append(plii)
+        if len(pl) == 3:
+            pl = [target_point]
         points.append(Point(x, y))
         line = Line(Point(x, y), target_point)
         lines.append(line)
-        line.setFill("red")
-        line.draw(win)
-
+        i+=1
     polygon.undraw()
     polygon = Polygon(*points)
     polygon.setOutline("red")
+    #polygon.setFill("Purple")
     polygon.draw(win)
-    ball1 = Circle(Point(500, 100), 15)
+    for line in lines:
+        line.setFill("red")
+        line.draw(win)
+    ball1 = Circle(target_point, 15)
     ball1.setFill("blue")
     ball1.draw(win)
-    time.sleep(0.05)
+    update(M)
+    time.sleep(1/M)
     for line in lines:
         line.undraw()
+    for i in pli:
+        i.undraw()
