@@ -1,8 +1,67 @@
-numberGames = {}
-numberGames[(1, 2, 4)] = 8
-numberGames[(4, 2, 1)] = 10
-numberGames[(1, 2)] = 12
-sum = 0
-for k in numberGames:
-    sum += numberGames[k]
-print(len(numberGames) + sum)
+from graphics import *
+import math
+import time
+
+class Ball:
+    def __init__(self, win, radius, oval_radius, angle):
+        self.win = win
+        self.radius = radius
+        self.oval_radius = oval_radius
+        self.angle = angle
+        self.circle = Circle(Point(oval_radius * math.cos(angle) + win.getWidth() / 2,
+                                   oval_radius * math.sin(angle) + win.getHeight() / 2),
+                             radius)
+        self.circle.setFill("blue")
+        self.circle.draw(win)
+
+    def move(self):
+        self.angle += 0.05
+        if self.angle >= 2 * math.pi:
+            self.angle -= 2 * math.pi
+        x = 2*self.oval_radius * math.cos(self.angle) + self.win.getWidth() / 2
+        y = self.oval_radius * math.sin(self.angle) + self.win.getHeight()* 3 / 4
+        self.circle.move(x - self.circle.getCenter().getX(), y - self.circle.getCenter().getY())
+        return x, y
+win_width = 1000
+win_height = 1000
+oval_radius = 200
+ball_radius = 10
+n_balls = 12
+
+win = GraphWin("Balls Moving in an Oval", win_width, win_height)
+win.setBackground("black")
+
+balls = []
+polygon = Polygon()
+polygon.setFill("lightgrey")
+polygon.setOutline("red")
+polygon.draw(win)
+
+for i in range(n_balls):
+    angle = (2 * math.pi / n_balls) * i
+    ball = Ball(win, ball_radius, oval_radius, angle)
+    balls.append(ball)
+
+target_point = Point(500, 100)
+
+while True:
+    points = []
+    lines = []
+    for ball in balls:
+        x, y = ball.move()
+        points.append(Point(x, y))
+        line = Line(Point(x, y), target_point)
+        lines.append(line)
+        line.setFill("red")
+        line.draw(win)
+
+    polygon.undraw()
+    polygon = Polygon(*points)
+    polygon.setOutline("red")
+    polygon.draw(win)
+    ball1 = Circle(Point(500, 100), 15)
+    ball1.setFill("blue")
+    ball1.draw(win)
+    time.sleep(0.05)
+    for line in lines:
+        line.undraw()
