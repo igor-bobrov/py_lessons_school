@@ -68,5 +68,5 @@ class GameOfLife:
             self.update_cells()
             time.sleep(1/144)
             update(144)
-game = GameOfLife(rows=30, cols=30, cell_size=20)
+game = GameOfLife(rows=15, cols=15, cell_size=20)
 game.run()

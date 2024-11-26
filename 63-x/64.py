@@ -6,17 +6,20 @@ def draw_sierpinski_square(win, top_left, size, depth):
         square.setFill("black")
         square.draw(win)
     else:
-        new_size = size / 2
-        draw_sierpinski_square(win, top_left, new_size, depth - 1)
-        draw_sierpinski_square(win, Point(top_left.x + new_size, top_left.y), new_size, depth - 1)
-        draw_sierpinski_square(win, Point(top_left.x, top_left.y + new_size), new_size, depth - 1)
-        draw_sierpinski_square(win, Point(top_left.x + new_size, top_left.y + new_size), new_size, depth - 1)
+        new_size = size / 3
+        for i in range(3):
+            for j in range(3):
+                if i == 1 and j == 1:
+                    continue 
+                draw_sierpinski_square(win,
+                                        Point(top_left.x + i * new_size, top_left.y + j * new_size),
+                                        new_size,
+                                        depth - 1)
 
-win = GraphWin("Sierpinski", 600, 600)
-depth = 6
-size = 300  
-top_left = Point(150, 150) 
-draw_sierpinski_square(win, top_left, size, depth)
+win = GraphWin("Nigger Square", 600, 600)
+win.setBackground("white")
+draw_sierpinski_square(win, Point(100, 100), 400, 4) 
 
-win.getMouse()
+win.getMouse() 
 win.close() 
+

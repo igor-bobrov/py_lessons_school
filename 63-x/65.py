@@ -1,34 +1,32 @@
 from graphics import *
 import math
 
-def draw_branch(win, start, angle, length, depth, n):
+def draw_snowflake(win, center, length, depth, branches):
     if depth == 0:
         return
+    angles = [2 * math.pi * i / branches for i in range(branches)]
 
-    end_x = start.x + length * math.cos(math.radians(angle))
-    end_y = start.y - length * math.sin(math.radians(angle))
-    end_point = Point(end_x, end_y)
+    for i in range(len(angles)):
+        end_x = center.x + length * math.cos(angles[i])
+        end_y = center.y + length * math.sin(angles[i])
+        end = Point(end_x, end_y)
 
-    line = Line(start, end_point)
-    line.setWidth(2)
-    line.draw(win)
-    new_length = length / 3
-    for i in range(n):
-        new_angle = angle - (180 / n) * (i - n // 2) 
-        draw_branch(win, end_point, new_angle, new_length, depth - 1, n)
+        line = Line(center, end)
+        line.setWidth(depth)  
+        line.draw(win)
 
-def draw_snowflake(n, depth):
+        draw_snowflake(win, end, length / 3, depth - 1, branches)
+
+n_values = [3, 4, 6]
+length = 200 
+
+for n in n_values:
     win = GraphWin(f"Snowflake (n={n})", 600, 600)
-    center = Point(300, 300)
+    win.setBackground("white")
 
-    length = 200
-    for i in range(n):
-        angle = 360 / n * i
-        draw_branch(win, center, angle, length, depth, n)
+    center = Point(300, 300)  
+    draw_snowflake(win, center, length, 6, n) 
 
-    win.getMouse()  
-    win.close()  
-
-for n in [4, 3, 6]:
-    draw_snowflake(n, depth=4) 
+    win.getMouse() 
+    win.close() 
 
