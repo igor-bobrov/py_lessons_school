@@ -1,28 +1,43 @@
-from graphics import *
+import turtle
 import math
 
-def draw_branch(win, start, angle, length, depth):
-    if depth == 0:
+def draw_square(t, size):
+    for _ in range(4):
+        t.forward(size)
+        t.right(90)
+
+def pythagorean_tree(t, size, level):
+    if level == 0:
         return
-    end_x = start.x + length * math.cos(angle)
-    end_y = start.y - length * math.sin(angle)
-    end = Point(end_x, end_y)
 
-    line = Line(start, end)
-    line.setWidth(depth/2) 
-    line.setOutline("purple")
-    line.draw(win)
+    draw_square(t, size)
 
-    new_length = length * 0.7
-    draw_branch(win, end, angle - math.radians(30), new_length, depth - 1)  
-    draw_branch(win, end, angle + math.radians(30), new_length, depth - 1)  
+    t.forward(size)
+    t.left(90)
 
-win = GraphWin("Fractal Nigger", 800, 800)
-win.setBackground("white")
-start = Point(400, 700)
-initial_length = 200 
-initial_angle = math.radians(90)  
-draw_branch(win, start, initial_angle, initial_length, 14)
+    pythagorean_tree(t, size / math.sqrt(2), level - 1)
 
-win.getMouse()  
-win.close() 
+    t.right(90)
+    t.forward(size / math.sqrt(2))
+    t.right(90)
+    
+    pythagorean_tree(t, size / math.sqrt(2), level - 1)
+
+    t.left(90)
+    t.backward(size / math.sqrt(2))
+    t.left(90)
+    t.backward(size)
+    t.right(90)
+
+screen = turtle.Screen()
+screen.title("Квадратное дерево Пифагора")
+t = turtle.Turtle()
+t.speed(0)  
+t.penup()
+t.goto(-200, -200)
+t.pendown()
+
+pythagorean_tree(t, 200, 5) 
+
+t.hideturtle()
+screen.mainloop()
