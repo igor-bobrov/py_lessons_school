@@ -5,6 +5,4 @@ def F(n):
         return n + F(n - 1)
     else:
         return 2 * F(n - 2)
-
-result = F(26)
-print(result)
+print(F(26))
